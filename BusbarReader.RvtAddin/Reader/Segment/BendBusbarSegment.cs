@@ -75,7 +75,7 @@ namespace BusbarReader.RvtAddin.Reader
 
             Lines = geo.OfType<Line>().ToList();
 
-            if (Lines.Count > 2)
+            if (Lines.Count > 2 || Lines.Count == 0)
             {
                 throw new GuidCurveCountErrorException(Element, 2, Lines.Count);
             }
@@ -98,7 +98,7 @@ namespace BusbarReader.RvtAddin.Reader
                 throw new SolidCountErrorCountException(Element, 1, Lines.Count);
             }
 
-            EnsureBendType(solids.First());
+            //EnsureBendType(solids.First());
         }
 
         private void CombineTwoBendLine()

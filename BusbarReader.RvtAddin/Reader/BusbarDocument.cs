@@ -5,9 +5,12 @@ namespace BusbarReader.RvtAddin.Reader
 {
     public class BusbarDocument
     {
-        public BusbarDocument(Document document)
+        private readonly List<Element> _selections;
+
+        public BusbarDocument(Document document, List<Element> selections)
         {
             Document = document;
+            _selections = selections;
         }
 
         public Document Document { get; }
@@ -52,6 +55,23 @@ namespace BusbarReader.RvtAddin.Reader
         {
             var busbarSegements = new List<BusbarSegment>();
             List<ErrorElement> errorElements = new List<ErrorElement>();
+
+            if (_selections?.Any() == true)
+            {
+                foreach (var element in _selections)
+                {
+                    try
+                    {
+                        var elemt = BusbarSegment.CreateByElememnt(element);
+                        busbarSegements.Add(elemt);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorElements.Add(new ErrorElement(ex));
+                    }
+                }
+                return busbarSegements;
+            }
 
             var collector = new FilteredElementCollector(Document);
             var lineFileter = new ElementCategoryFilter(BuiltInCategory.OST_DuctCurves);        

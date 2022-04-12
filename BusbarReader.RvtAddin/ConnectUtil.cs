@@ -7,7 +7,7 @@ namespace BusbarReader.RvtAddin
 {
     public static class ConnectUtil
     {
-        public static double Eplision = 0.00001;
+        public static double Eplision = 0.001;
 
         public static bool IsConnect(BusbarSegment segment1, BusbarSegment segment2)
         {

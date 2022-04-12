@@ -134,5 +134,10 @@ namespace BusbarReader.RvtAddin.Reader
             }
             SortedLines = lines;
         }
+
+        public override string ToString()
+        {
+            return $"铜牌:{SortedSegments?.Count} 段"; 
+        }
     }
 }

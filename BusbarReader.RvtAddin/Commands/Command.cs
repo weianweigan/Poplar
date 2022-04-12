@@ -14,8 +14,13 @@ namespace BusbarReader.RvtAddin.Commands
             var uiDocument = commandData.Application.ActiveUIDocument;
             var document = uiDocument.Document;
 
-            var busBarDoc = new BusbarDocument(document);
+            var selections = uiDocument.Selection.GetElementIds().Select(p => document.GetElement(p)).ToList();
+
+            var busBarDoc = new BusbarDocument(document,selections);
             var busbar = busBarDoc.GetBusbar();
+
+            var window = new BusbarListWindow(busbar, busBarDoc, uiDocument);
+            window.ShowDialog();
 
             return Result.Succeeded;
         }
