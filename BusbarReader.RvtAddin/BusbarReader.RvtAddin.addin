@@ -1,0 +1,10 @@
+﻿<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>BusbarReader.RvtAddin</Name>
+        <Assembly>BusbarReader.RvtAddin/BusbarReader.RvtAddin.dll</Assembly>
+        <AddInId>A0BBBBD8-3CA7-4F19-809B-CAF339AE89E7</AddInId>
+        <FullClassName>BusbarReader.RvtAddin.Application</FullClassName>
+        <VendorId>CompanyName</VendorId>
+        <VendorDescription>Description</VendorDescription>
+    </AddIn>
+</RevitAddIns>
