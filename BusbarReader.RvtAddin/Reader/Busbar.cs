@@ -137,7 +137,7 @@ namespace BusbarReader.RvtAddin.Reader
 
         public override string ToString()
         {
-            return $"铜牌:{SortedSegments?.Count} 段"; 
+            return $"铜排:{SortedSegments?.Count} 段 - {GetLength()}"; 
         }
     }
 }

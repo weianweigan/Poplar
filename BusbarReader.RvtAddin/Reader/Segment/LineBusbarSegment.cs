@@ -53,7 +53,7 @@ namespace BusbarReader.RvtAddin.Reader
 
         public override string ToString()
         {
-            return $"铜牌段：{CombineLine}";
+            return $"铜排：{CombineLine}";
         }
 
         #region Private Methods

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BusbarReader.RvtAddin.Reader;
 
@@ -39,7 +41,7 @@ namespace BusbarReader.RvtAddin
                 _selectedBusbar = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBusbar)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedBusbar.SortedSegments"));
-                SelectElement();
+                SelectElement(SelectedBusbar?.SortedSegments.Select(p => p.Element).ToList());
             }
         }
 
@@ -49,15 +51,55 @@ namespace BusbarReader.RvtAddin
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void SelectElement()
+        private void SelectElement(List<Element> elements)
         {
-            if (SelectedBusbar != null)
+            if (elements != null)
             {
-                UiDocument.Selection.SetElementIds(SelectedBusbar.SortedSegments
-                    .Select(p => p.Element.Id)
+                UiDocument.Selection.SetElementIds(elements
+                    .Select(p => p.Id)
                     .ToList());
 
                 UiDocument.RefreshActiveView();
+            }
+        }
+
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (!Equals(field, newValue))
+            {
+                field = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                return true;
+            }
+
+            return false;
+        }
+
+        private ErrorElement _selectErrorElement;
+
+        public ErrorElement SelectErrorElement
+        {
+            get => _selectErrorElement; set
+            {
+                SetProperty(ref _selectErrorElement, value);
+                if (_selectErrorElement != null)
+                {
+                    SelectElement(new List<Element>() { _selectErrorElement.Element });
+                }
+            }
+        }
+
+        private BusbarSegment _selectedSegment;
+
+        public BusbarSegment SelectedSegment
+        {
+            get => _selectedSegment; set
+            {
+                SetProperty(ref _selectedSegment, value);
+                if (_selectedSegment != null)
+                {
+                    SelectElement(new List<Element>() { _selectedSegment.Element});
+                }
             }
         }
     }

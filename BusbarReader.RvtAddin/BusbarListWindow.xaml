@@ -11,12 +11,20 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding Busbars}"
-                 SelectedItem="{Binding SelectedBusbar}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <ListBox ItemsSource="{Binding Busbars}"
+                 SelectedItem="{Binding SelectedBusbar}"/>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Document.ErrorElememts}"
+                     SelectedItem="{Binding SelectErrorElement}"/>
+        </Grid>
             
-        </ListBox>
         <ListBox Grid.Column="1"
-            ItemsSource="{Binding SelectedBusbar.SortedSegments}">
+            ItemsSource="{Binding SelectedBusbar.SortedSegments}"
+                 SelectedItem="{Binding SelectedSegment}">
             
         </ListBox>
     </Grid>

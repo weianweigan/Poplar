@@ -67,7 +67,7 @@ namespace BusbarReader.RvtAddin.Reader
                     }
                     catch (Exception ex)
                     {
-                        errorElements.Add(new ErrorElement(ex));
+                        errorElements.Add(new ErrorElement(ex,element));
                     }
                 }
                 return busbarSegements;
@@ -85,7 +85,7 @@ namespace BusbarReader.RvtAddin.Reader
                 }
                 catch (Exception ex)
                 {
-                    errorElements.Add(new ErrorElement(ex));
+                    errorElements.Add(new ErrorElement(ex,element));
                 }
             }
 
@@ -101,7 +101,7 @@ namespace BusbarReader.RvtAddin.Reader
                 }
                 catch (Exception ex)
                 {
-                    errorElements.Add(new ErrorElement(ex));
+                    errorElements.Add(new ErrorElement(ex,element));
                 }
             }
 

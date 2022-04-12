@@ -13,6 +13,11 @@ namespace BusbarReader.RvtAddin.Reader
         /// 水平折弯
         /// </summary>
         Hor,
+
+        /// <summary>
+        /// 未知，计算错误导致
+        /// </summary>
+        None,
     }
 
     public class BendBusbarSegment : BusbarSegment
@@ -98,7 +103,14 @@ namespace BusbarReader.RvtAddin.Reader
                 throw new SolidCountErrorCountException(Element, 1, Lines.Count);
             }
 
-            //EnsureBendType(solids.First());
+            try
+            {
+                EnsureBendType(solids.First());
+            }
+            catch (Exception ex)
+            {
+                BendType = BendType.None;
+            }
         }
 
         private void CombineTwoBendLine()
@@ -172,7 +184,7 @@ namespace BusbarReader.RvtAddin.Reader
 
         public override string ToString()
         {
-            return $"折弯：{CombineLine}";
+            return $"{BendType}折弯：{CombineLine}";
         }
         #endregion
     }
