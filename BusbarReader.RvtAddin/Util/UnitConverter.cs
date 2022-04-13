@@ -12,10 +12,10 @@ namespace BusbarReader.RvtAddin
         /// <remarks>此API在20以后有更改，编译为不同版本</remarks>
         public static double ConvertToMM(double value)
         {
-#if R21 || R22
-            return UnitUtils.ConvertFromInternalUnits(value,UnitTypeId.Millimeters);
-#else
+#if R19 || R20
             return UnitUtils.ConvertFromInternalUnits(value, DisplayUnitType.DUT_MILLIMETERS);
+#else
+            return UnitUtils.ConvertFromInternalUnits(value,UnitTypeId.Millimeters);
 #endif
         }
 
