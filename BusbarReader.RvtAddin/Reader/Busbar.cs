@@ -1,20 +1,35 @@
 ﻿
-
 namespace BusbarReader.RvtAddin.Reader
 {
+    /// <summary>
+    /// 代表一个铜牌零件
+    /// </summary>
     public class Busbar
     {
-
+        #region Ctor
         public Busbar()
         {
         }
+        #endregion
 
+        #region Properties
+        /// <summary>
+        /// 未排序，默认顺序的段
+        /// </summary>
         public List<BusbarSegment> Segments { get; } = new List<BusbarSegment>();
 
+        /// <summary>
+        /// 排序好的段 包括 <see cref="LineBusbarSegment"/> 和 <see cref="BendBusbarSegment"/>
+        /// </summary>
         public List<BusbarSegment> SortedSegments { get; private set; }
 
+        /// <summary>
+        /// 排序好的轴线，折弯一般为两条直线
+        /// </summary>
         public List<Line3d> SortedLines { get; private set; }
+        #endregion
 
+        #region Public Methods
         public bool IsConnect(BusbarSegment segment)
         {
             return Segments.Any(p => ConnectUtil.IsConnect(segment, p));
@@ -117,7 +132,13 @@ namespace BusbarReader.RvtAddin.Reader
 
             ToSortLines();
         }
+        public override string ToString()
+        {
+            return $"Busbar:{SortedSegments?.Count} 段 - {GetLength()}"; 
+        }
+        #endregion
 
+        #region Private Methods
         private void ToSortLines()
         {
             List<Line3d> lines = new List<Line3d>();
@@ -134,10 +155,6 @@ namespace BusbarReader.RvtAddin.Reader
             }
             SortedLines = lines;
         }
-
-        public override string ToString()
-        {
-            return $"铜排:{SortedSegments?.Count} 段 - {GetLength()}"; 
-        }
+        #endregion
     }
 }

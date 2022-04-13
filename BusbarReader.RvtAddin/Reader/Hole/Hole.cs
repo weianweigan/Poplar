@@ -13,6 +13,8 @@ namespace BusbarReader.RvtAddin.Reader
     {
         public abstract HoleType Type { get; }
 
+        public abstract string ToString(Vector3d orign);
+
         public static Hole Create(Edge circle)
         {
             var curve = circle.AsCurve();

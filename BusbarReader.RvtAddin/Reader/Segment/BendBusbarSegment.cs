@@ -6,20 +6,23 @@ namespace BusbarReader.RvtAddin.Reader
     public enum BendType
     {
         /// <summary>
-        /// 竖直折弯，默认折弯
+        /// 平弯
         /// </summary>
         Vec,
         /// <summary>
-        /// 水平折弯
+        /// 立弯
         /// </summary>
         Hor,
 
         /// <summary>
         /// 未知，计算错误导致
         /// </summary>
-        None,
+        UnKnown,
     }
 
+    /// <summary>
+    /// 折弯
+    /// </summary>
     public class BendBusbarSegment : BusbarSegment
     {
         #region Ctor
@@ -109,7 +112,8 @@ namespace BusbarReader.RvtAddin.Reader
             }
             catch (Exception ex)
             {
-                BendType = BendType.None;
+                BendType = BendType.UnKnown;
+                throw new BendTypeErrorException($"{Element.Id}-{Element.Name} 无法确定折弯类型",ex);
             }
         }
 
@@ -184,7 +188,27 @@ namespace BusbarReader.RvtAddin.Reader
 
         public override string ToString()
         {
-            return $"{BendType}折弯：{CombineLine}";
+            string name = GetBendTypeName(BendType);
+
+            return $"{name}：{CombineLine}";
+        }
+
+        private string GetBendTypeName(BendType bendType)
+        {
+            string name = string.Empty;
+            switch (bendType)
+            {
+                case BendType.Vec:
+                    name = "平弯";
+                    break;
+                case BendType.Hor:
+                    name = "立弯";
+                    break;
+                case BendType.UnKnown:
+                    name = $"未知,检查{Element.Id}";
+                    break;
+            }
+            return name;
         }
         #endregion
     }

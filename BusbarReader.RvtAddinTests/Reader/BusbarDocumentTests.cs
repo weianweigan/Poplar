@@ -47,7 +47,7 @@ namespace BusbarReader.RvtAddin.Reader.Tests
         {
             doc = uiApplication.Application.OpenDocumentFile(model);
 
-            var busbarDoc = new BusbarDocument(doc);
+            var busbarDoc = new BusbarDocument(doc,null);
             var busbar = busbarDoc.GetBusbar();
             return busbar;
         }

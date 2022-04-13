@@ -40,10 +40,7 @@ namespace BusbarReader.RvtAddin.Reader
                     .FirstOrDefault(p => !visited.Contains(p) && busbar.IsConnect(p));
                 }
 
-                //排序
                 busbar.Sort();
-
-                //var length = busbar.GetLength();
 
                 busbars.Add(busbar);
             }            
@@ -54,21 +51,13 @@ namespace BusbarReader.RvtAddin.Reader
         private List<BusbarSegment> GetSegments()
         {
             var busbarSegements = new List<BusbarSegment>();
-            List<ErrorElement> errorElements = new List<ErrorElement>();
+            var errorElements = new List<ErrorElement>();
 
             if (_selections?.Any() == true)
             {
                 foreach (var element in _selections)
                 {
-                    try
-                    {
-                        var elemt = BusbarSegment.CreateByElememnt(element);
-                        busbarSegements.Add(elemt);
-                    }
-                    catch (Exception ex)
-                    {
-                        errorElements.Add(new ErrorElement(ex,element));
-                    }
+                    AddSegment(busbarSegements, errorElements, element);
                 }
                 return busbarSegements;
             }
@@ -78,15 +67,7 @@ namespace BusbarReader.RvtAddin.Reader
             var lineElement = collector.WherePasses(lineFileter);
             foreach (var element in lineElement.OfType<Duct>())
             {
-                try
-                {
-                   var elemt =  BusbarSegment.CreateByElememnt(element);
-                    busbarSegements.Add(elemt);
-                }
-                catch (Exception ex)
-                {
-                    errorElements.Add(new ErrorElement(ex,element));
-                }
+                AddSegment(busbarSegements, errorElements, element);
             }
 
             var bendFileter = new ElementCategoryFilter(BuiltInCategory.OST_DuctFitting);
@@ -94,20 +75,34 @@ namespace BusbarReader.RvtAddin.Reader
             var bendElement = collector.WherePasses(bendFileter);
             foreach (var element in bendElement.OfType<FamilyInstance>())
             {
-                try
-                {
-                    var elemt = BusbarSegment.CreateByElememnt(element);
-                    busbarSegements.Add(elemt);
-                }
-                catch (Exception ex)
-                {
-                    errorElements.Add(new ErrorElement(ex,element));
-                }
+                AddSegment(busbarSegements, errorElements, element);
             }
 
             ErrorElememts = errorElements;
 
             return busbarSegements;
+        }
+
+        private static void AddSegment(List<BusbarSegment> busbarSegements, List<ErrorElement> errorElements, Element element)
+        {
+            BusbarSegment segment = default;
+            try
+            {
+                segment = BusbarSegment.CreateByElememnt(element);
+                busbarSegements.Add(segment);
+            }
+            catch (BendTypeErrorException ex)
+            {
+                if (segment != null)
+                {
+                    busbarSegements.Add(segment);
+                }
+                errorElements.Add(new ErrorElement(ex, element));
+            }
+            catch (Exception ex)
+            {
+                errorElements.Add(new ErrorElement(ex, element));
+            }
         }
     }
 }

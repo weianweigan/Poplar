@@ -1,14 +1,20 @@
-﻿using Autodesk.Revit.DB;
+﻿using System.Text;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
 
 
 namespace BusbarReader.RvtAddin.Reader
 {
+    /// <summary>
+    /// 直线排
+    /// </summary>
     public class LineBusbarSegment : BusbarSegment
     {
+        #region Ctor
         public LineBusbarSegment(Duct element) : base(element)
         {
         }
+        #endregion
 
         #region Properties
         public double Width { get; private set; }
@@ -17,7 +23,15 @@ namespace BusbarReader.RvtAddin.Reader
 
         public XYZ Direction { get; private set; }
 
+        /// <summary>
+        /// 孔腔 类型查看：<see cref="HoleType"/>
+        /// </summary>
         public List<Hole> Holes { get; private set; }
+
+        /// <summary>
+        /// 排头中心点
+        /// </summary>
+        public Vector3d Orign { get; private set; }
         #endregion
 
         protected override void Solve()
@@ -53,7 +67,16 @@ namespace BusbarReader.RvtAddin.Reader
 
         public override string ToString()
         {
-            return $"铜排：{CombineLine}";
+            var strBuilder = new StringBuilder();
+            strBuilder.Append($"L:{UnitConverter.ConvertToMM(CombineLine.Direction.Length)};");
+            if (Holes != null)
+            {
+                foreach (var hole in Holes)
+                {
+                    strBuilder.Append(hole.ToString(Orign));
+                }
+            }
+            return strBuilder.ToString();
         }
 
         #region Private Methods
@@ -82,6 +105,10 @@ namespace BusbarReader.RvtAddin.Reader
             }
             else
             {
+                //确定基准点
+                var centerOrign = CombineLine.Origin;
+                Orign = sidePlanarFace.Project(new XYZ(centerOrign.x, centerOrign.y, centerOrign.z)).XYZPoint.ToVector3d();
+
                 SolveWidthAndThickness(sidePlanarFace,out var width,out var thickness);
                 Width = width;
                 ThickNess = thickness;
