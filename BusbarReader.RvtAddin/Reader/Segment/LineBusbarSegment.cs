@@ -68,7 +68,7 @@ namespace BusbarReader.RvtAddin.Reader
         public override string ToString()
         {
             var strBuilder = new StringBuilder();
-            strBuilder.Append($"L:{UnitConverter.ConvertToMM(CombineLine.Direction.Length)};");
+            strBuilder.Append($"L:{Math.Round(UnitConverter.ConvertToMM(CombineLine.Direction.Length),2)};");
             if (Holes != null)
             {
                 foreach (var hole in Holes)

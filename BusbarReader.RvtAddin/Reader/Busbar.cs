@@ -134,7 +134,7 @@ namespace BusbarReader.RvtAddin.Reader
         }
         public override string ToString()
         {
-            return $"Busbar:{SortedSegments?.Count} 段 - {GetLength()}"; 
+            return $"Busbar:{SortedSegments?.Count} 段 - {Math.Round(UnitConverter.ConvertToMM(GetLength()),2)}"; 
         }
         #endregion
 

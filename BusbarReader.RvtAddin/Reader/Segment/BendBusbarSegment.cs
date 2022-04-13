@@ -83,7 +83,7 @@ namespace BusbarReader.RvtAddin.Reader
 
             Lines = geo.OfType<Line>().ToList();
 
-            if (Lines.Count > 2 || Lines.Count == 0)
+            if (Lines.Count != 2)/*(Lines.Count > 2 || Lines.Count == 0)*/
             {
                 throw new GuidCurveCountErrorException(Element, 2, Lines.Count);
             }
@@ -154,13 +154,16 @@ namespace BusbarReader.RvtAddin.Reader
         private void EnsureBendType(Solid solid)
         {
             var planarFaces = solid.Faces.OfType<PlanarFace>();
-            var direction = Lines.First().Direction;
+            var direction = Lines.First().Direction.ToVector3d();
 
             PlanarFace sidePlanarFace = null;
             PlanarFace circleSidePlanarFace = null;
             foreach (var face in planarFaces)
             {
-                if (face.FaceNormal.IsAlmostEqualTo(direction, ConnectUtil.Eplision))
+                if (face.EdgeLoops.OfType<EdgeArray>()
+                    .FirstOrDefault()
+                    ?.OfType<Edge>()
+                    .All(e => e.AsCurve() is Line) == true)
                 {
                     sidePlanarFace = face;
                 }
@@ -168,6 +171,10 @@ namespace BusbarReader.RvtAddin.Reader
                 {
                     //侧面
                     circleSidePlanarFace = face;
+                }
+                if (sidePlanarFace != null && circleSidePlanarFace != null)
+                {
+                    break;
                 }
             }
 
@@ -190,7 +197,13 @@ namespace BusbarReader.RvtAddin.Reader
         {
             string name = GetBendTypeName(BendType);
 
-            return $"{name}：{CombineLine}";
+            var lines = GetOrderedLines().ToList();
+
+            var angleR = Vector3d.AngleR(lines[0].Direction,lines[1].Direction);
+
+            var angleD = (angleR / Math.PI) * 180 ;
+
+            return $"{name}：{Math.Round( angleD,2)}";
         }
 
         private string GetBendTypeName(BendType bendType)
