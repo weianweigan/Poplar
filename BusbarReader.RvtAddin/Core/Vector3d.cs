@@ -194,6 +194,22 @@
             return UnitCross(ref v2);
         }
 
+        public static double AngleR(Vector3d vector1, Vector3d vector2)
+        {
+            vector1.Normalize();
+            vector2.Normalize();
+            double num = Dot(vector1, vector2);
+            double radians = (!(num < 0.0)) ? (2.0 * Math.Asin((vector1 - vector2).Length / 2.0)) : (Math.PI - 2.0 * Math.Asin((-vector1 - vector2).Length / 2.0));
+            return radians;
+        }
+
+        public static bool IsPara(Vector3d vector1, Vector3d vector2, double eplison)
+        {
+            var angel = Math.Abs(AngleR(vector1, vector2));
+
+            return angel< eplison || Math.Abs(angel - Math.PI) < eplison;
+        }
+
         public double DistanceSquared(Vector3d v2)
         {
             double num = v2.x - x;

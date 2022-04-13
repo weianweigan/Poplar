@@ -9,23 +9,31 @@ namespace BusbarReader.RvtAddin.Reader
         public BusbarSegment(Element element)
         {
             Element = element;
-            Solve();
         }
         #endregion
 
         #region Static Method
         public static BusbarSegment CreateByElememnt(Element element)
         {
+            BusbarSegment segment = default;
             if (element is Duct duct)
             {
-                return new LineBusbarSegment(duct);
+                segment = new LineBusbarSegment(duct);
             }
             else if (element is FamilyInstance familyInstance)
             {
-                return new BendBusbarSegment(familyInstance);
+                segment = new BendBusbarSegment(familyInstance);
             }
 
-            throw new NotSupportedException(element.GetType().FullName);
+            if (segment != null)
+            {
+                segment.Solve();
+                return segment;
+            }
+            else
+            {
+                throw new NotSupportedException(element.GetType().FullName);
+            }
         }
         #endregion
 
