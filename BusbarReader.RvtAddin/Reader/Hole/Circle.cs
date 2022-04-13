@@ -1,6 +1,5 @@
 ﻿namespace BusbarReader.RvtAddin.Reader
 {
-
     public class Circle : Hole
     {
         public Circle(Vector3d center, double radius)
@@ -14,6 +13,16 @@
         public Vector3d Center { get; }
 
         public override HoleType Type => HoleType.Circle;
+
+        public override string ToString()
+        {
+            return $"T:{Center} {Radius}";
+        }
+
+        public override string ToString(Vector3d orign)
+        {
+            return $"T:{UnitConverter.ConvertToMM(Center - orign)},{UnitConverter.ConvertToMM(Radius)}";
+        }
     }
 
     public class SoltArc

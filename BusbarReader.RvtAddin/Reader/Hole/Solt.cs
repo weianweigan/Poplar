@@ -13,5 +13,10 @@
         public List<SoltArc> SoltArc { get; }
 
         public List<Line3d> Lines { get; }
+
+        public override string ToString(Vector3d orign)
+        {
+            return "Solt";
+        }
     }
 }
