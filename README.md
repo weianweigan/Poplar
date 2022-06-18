@@ -1,9 +1,25 @@
-# 调试
+# Poplar
 
-1.选择你的Revit版本
+A revit addin to distinguish and statistics busbar in your *.rvt file.
 
-![](Resources/Debug.png)
+Support Element Type:
+```csharp
+    BuiltInCategory.OST_DuctCurves
+    BuiltInCategory.OST_DuctFitting
+```
 
-2.启动Revit
+You can also select some elements to distinguish.
 
-3.附加进程到Revit
+# Addin
+
+![UI](./Resources/Splash.png)
+
+# Version
+
+Support Revit2019 - Revit2023
+
+# Todo
+
+1. Export Machining Information to Excel;
+2. Make a intaller and muti-language;
+3. More...
