@@ -353,3 +353,6 @@ MigrationBackup/
 
 #Nuke output folder
 /output/
+
+#Revit
+.rvt
