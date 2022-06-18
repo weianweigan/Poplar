@@ -11,7 +11,7 @@ namespace BusbarReader.RvtAddin
         public BusbarListWindow(List<Busbar> busbars,BusbarDocument document, Autodesk.Revit.UI.UIDocument uiDocument)
         {
             InitializeComponent();
-
+            this.SetOwnerWindow();
             DataContext = new BusbarListWindowViewModel(busbars,document,uiDocument);
         }
     }

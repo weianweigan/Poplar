@@ -11,6 +11,7 @@ namespace BusbarReader.RvtAddin
         private Busbar _selectedBusbar;
         private BusbarSegment _selectedSegment;
         private ErrorElement _selectErrorElement;
+        private string _statusBarMsg;
         #endregion
 
         #region Ctor
@@ -20,6 +21,8 @@ namespace BusbarReader.RvtAddin
             Busbars = busbars;
             Document = document;
             UiDocument = uiDocument;
+
+            StatusBarMsg = $"Num:{busbars?.Count}";
         }
         #endregion
 
@@ -77,6 +80,8 @@ namespace BusbarReader.RvtAddin
                 UiDocument.RefreshActiveView();
             }
         }
+
+        public string StatusBarMsg { get => _statusBarMsg; set => SetProperty(ref _statusBarMsg, value); }
 
     }
 }

@@ -43,6 +43,9 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\Excel\DefaultTemplate.xls" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
@@ -57,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Excel\DefaultTemplate.xls" />
     <Resource Include="Resources\Icons\RibbonIcon16.png" />
     <Resource Include="Resources\Icons\RibbonIcon32.png" />
   </ItemGroup>

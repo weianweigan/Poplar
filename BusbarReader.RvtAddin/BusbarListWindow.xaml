@@ -7,12 +7,21 @@
         xmlns:local="clr-namespace:BusbarReader.RvtAddin" 
         d:DataContext="{d:DesignInstance Type=local:BusbarListWindowViewModel}"
         WindowStartupLocation="CenterOwner"
-        Title="BusbarListWindow" Height="450" Width="800">
+        ShowInTaskbar="False"
+        Icon="./Resources/Icons/RibbonIcon32.png"
+        Title="统计窗口" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary Source="pack://application:,,,/BusbarReader.RvtAddin;component/Themes/Generic.xaml" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*"/>
@@ -34,12 +43,39 @@
                      SelectedItem="{Binding SelectErrorElement}"/>
             </GroupBox>
         </Grid>
-        <Grid>
-            <ListBox Grid.Column="1"
+        <GridSplitter ResizeDirection="Columns" 
+                      Width="2"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Stretch"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <ListBox 
             ItemsSource="{Binding SelectedBusbar.SortedSegments}"
                  SelectedItem="{Binding SelectedSegment}">
-
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Background="{Binding Converter={StaticResource SegementTypeColorConverter}}"
+                                   Text="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
+            <Button Grid.Row="1"
+                    Width="40"
+                    Height="40"
+                    Padding="4"
+                    BorderBrush="{StaticResource RvtGray}"
+                    Background="Transparent"
+                    HorizontalAlignment="Right"
+                    Margin="15,0">
+                <Image Source="{StaticResource excelDrawingImage}"/>
+            </Button>
         </Grid>
+        <StatusBar Grid.Row="1"
+                   Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding StatusBarMsg}"/>
+        </StatusBar>
     </Grid>
 </Window>

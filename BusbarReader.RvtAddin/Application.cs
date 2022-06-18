@@ -8,7 +8,7 @@ namespace BusbarReader.RvtAddin
     {
         public Result OnStartup(UIControlledApplication application)
         {
-            var panel = application.CreatePanel("Panel name", "Poplar");
+            var panel = application.CreatePanel("Statistics", "Poplar");
 
             var showButton = panel.AddPushButton<Command>("Busbar");
             showButton.SetImage("/BusbarReader.RvtAddin;component/Resources/Icons/RibbonIcon16.png");
