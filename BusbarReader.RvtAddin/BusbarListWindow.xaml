@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        xmlns:local="clr-namespace:BusbarReader.RvtAddin" d:DataContext="{d:DesignInstance Type=local:BusbarListWindowViewModel}"
+        xmlns:local="clr-namespace:BusbarReader.RvtAddin" 
+        d:DataContext="{d:DesignInstance Type=local:BusbarListWindowViewModel}"
+        WindowStartupLocation="CenterOwner"
         Title="BusbarListWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,16 +18,28 @@
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <ListBox ItemsSource="{Binding Busbars}"
-                 SelectedItem="{Binding SelectedBusbar}"/>
-            <ListBox Grid.Row="1" ItemsSource="{Binding Document.ErrorElememts}"
+            <GroupBox Header="Busbar"
+                      Margin="0,0,0,2">
+                <ListBox ItemsSource="{Binding Busbars}"
+                    SelectedItem="{Binding SelectedBusbar}"/>
+            </GroupBox>
+            <GridSplitter VerticalAlignment="Bottom"
+                          HorizontalAlignment="Stretch"
+                          ResizeDirection="Rows"
+                          Height="2"
+                          Background="Gray"/>
+            <GroupBox Header="Error Busbar"
+                      Grid.Row="1">
+                <ListBox ItemsSource="{Binding Document.ErrorElememts}"
                      SelectedItem="{Binding SelectErrorElement}"/>
+            </GroupBox>
         </Grid>
-            
-        <ListBox Grid.Column="1"
+        <Grid>
+            <ListBox Grid.Column="1"
             ItemsSource="{Binding SelectedBusbar.SortedSegments}"
                  SelectedItem="{Binding SelectedSegment}">
-            
-        </ListBox>
+
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>
